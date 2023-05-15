@@ -185,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Vector3 horizontalVel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            Vector3 horizontalVel = new(rb.velocity.x, 0, rb.velocity.z);
 
             if (horizontalVel.magnitude > moveSpeed)
             {
