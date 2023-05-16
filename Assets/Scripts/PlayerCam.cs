@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
@@ -18,7 +16,6 @@ public class PlayerCam : MonoBehaviour
         Cursor.visible = false;
     }
 
-
     void Update()
     {
         float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
@@ -33,7 +30,5 @@ public class PlayerCam : MonoBehaviour
         // rotate cam
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
-
-
     }
 }
