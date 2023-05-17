@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using EZCameraShake;
 
 public class GunSystem : MonoBehaviour
 {
@@ -20,6 +18,10 @@ public class GunSystem : MonoBehaviour
     public RaycastHit rayHit;
     public LayerMask enemyLayer;
 
+    [Header("Graphics")]
+    public ParticleSystem muzzleFlash;
+    public GameObject bulletHoleGraphic;
+
     private void Start()
     {
         bulletsLeft = magazineSize;
@@ -35,7 +37,7 @@ public class GunSystem : MonoBehaviour
     {
         shooting = allowButtonHold ? Input.GetKey(KeyCode.Mouse0) : Input.GetKeyDown(KeyCode.Mouse0);
 
-        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft > magazineSize && !reloading)
+        if (Input.GetKey(KeyCode.R) && bulletsLeft < magazineSize && !reloading)
         {
             Reload();
         }
@@ -52,6 +54,9 @@ public class GunSystem : MonoBehaviour
     {
         readyToShoot = false;
 
+        // Camera shake
+        CameraShaker.Instance.ShakeOnce(40f, 4f, 0.1f, 0.1f);
+
         // spread
         float xRandSpread = Random.Range(-spread, spread);
         float yRandSpread = Random.Range(-spread, spread);
@@ -63,6 +68,10 @@ public class GunSystem : MonoBehaviour
         {
             Debug.Log("Hit : " + rayHit.transform.gameObject.name.ToString());
         }
+
+        // bullet hole, muzzle flash
+        Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.FromToRotation(Vector3.forward, rayHit.normal));
+        muzzleFlash.Play();
 
         bulletsLeft--;
         bulletsShot--;
@@ -88,6 +97,7 @@ public class GunSystem : MonoBehaviour
 
     private void ReloadFinished()
     {
+        bulletsLeft = magazineSize;
         reloading = false;
     }
 }
