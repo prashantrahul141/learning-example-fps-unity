@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.5f, GroundLayer);
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f * (movementState == MovementState.CROUCHING ? 0.5f : 1f) + 0.3f, GroundLayer);
         MovePlayer();
     }
 
@@ -165,6 +165,7 @@ public class PlayerMovement : MonoBehaviour
         {
 
             rb.AddForce(10f * airMultiplier * moveSpeed * moveDirection.normalized, ForceMode.Force);
+
         }
 
         rb.useGravity = !OnSlope();
