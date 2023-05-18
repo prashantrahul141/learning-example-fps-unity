@@ -64,7 +64,7 @@ public class GunSystem : MonoBehaviour
 
 
         // Camera shake
-        CameraShaker.Instance.ShakeOnce(1f, 1f, 0.08f, 0.08f);
+        CameraShaker.Instance.ShakeOnce(0.5f, 4f, 0.08f, 0.08f);
 
         // spread
         float xRandSpread = Random.Range(-spread, spread);
