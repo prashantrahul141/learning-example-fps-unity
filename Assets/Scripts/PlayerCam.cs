@@ -10,6 +10,8 @@ public class PlayerCam : MonoBehaviour
     public float xRotation;
     public float yRotation;
 
+    public GunSystem gunSystem;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -25,7 +27,7 @@ public class PlayerCam : MonoBehaviour
         xRotation -= mouseY;
 
         // clamp max cam rotation 
-        xRotation = Mathf.Clamp(xRotation, -90f, 70f);
+        xRotation = Mathf.Clamp(xRotation - (gunSystem.IsShooting() ? gunSystem.recoil : 0), -90f, 70f);
 
         // rotate cam
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
