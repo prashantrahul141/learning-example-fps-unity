@@ -112,17 +112,17 @@ public class GunSystem : MonoBehaviour
 
     private IEnumerator Tremble()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 2; i++)
         {
-            gunModel.transform.localPosition += new Vector3(0.03f, 0.03f, 0.3f);
+            gunModel.transform.localPosition += new Vector3(0.03f, 0.03f, 0.2f);
             yield return new WaitForSeconds(0.01f);
-            gunModel.transform.localPosition -= new Vector3(0.03f, 0.03f, 0.3f);
+            gunModel.transform.localPosition -= new Vector3(0.03f, 0.03f, 0.2f);
             yield return new WaitForSeconds(0.01f);
         }
     }
 
     public bool IsShooting()
     {
-        return !readyToShoot;
+        return (!readyToShoot && !reloading && bulletsLeft > 0);
     }
 }
