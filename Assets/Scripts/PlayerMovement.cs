@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public float sprintSpeed;
 
     public float groundDrag;
+    public float airDrag;
 
     [Header("Jumping")]
     public float jumpForce;
@@ -71,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
         GetInput();
         SpeedControl();
         StateHandler();
-        rb.drag = grounded ? groundDrag : 0;
+        rb.drag = grounded ? groundDrag : airDrag;
     }
 
     private void FixedUpdate()
