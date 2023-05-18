@@ -1,5 +1,6 @@
 using UnityEngine;
 using EZCameraShake;
+using System.Collections;
 
 public class GunSystem : MonoBehaviour
 {
@@ -8,11 +9,13 @@ public class GunSystem : MonoBehaviour
     public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
     public int magazineSize, bulletsPerTap;
     public bool allowButtonHold;
+    public float recoil;
 
     private int bulletsLeft, bulletsShot;
     private bool shooting, readyToShoot, reloading;
 
     [Header("References")]
+    public Transform playerOrientation;
     public Camera fpsCamera;
     public Transform attackPoint;
     public RaycastHit rayHit;
@@ -21,6 +24,8 @@ public class GunSystem : MonoBehaviour
     [Header("Graphics")]
     public ParticleSystem muzzleFlash;
     public GameObject bulletHoleGraphic;
+    public Transform gunModel;
+
 
     private void Start()
     {
@@ -53,9 +58,13 @@ public class GunSystem : MonoBehaviour
     private void Shoot()
     {
         readyToShoot = false;
+        playerOrientation.transform.rotation = playerOrientation.transform.rotation.normalized;
+
+        StartCoroutine(Tremble());
+
 
         // Camera shake
-        CameraShaker.Instance.ShakeOnce(40f, 4f, 0.1f, 0.1f);
+        CameraShaker.Instance.ShakeOnce(1f, 1f, 0.08f, 0.08f);
 
         // spread
         float xRandSpread = Random.Range(-spread, spread);
@@ -66,7 +75,7 @@ public class GunSystem : MonoBehaviour
         // RayCast
         if (Physics.Raycast(fpsCamera.transform.position, direction, out rayHit, range, enemyLayer))
         {
-            Debug.Log("Hit : " + rayHit.transform.gameObject.name.ToString());
+            //Debug.Log("Hit : " + rayHit.transform.gameObject.name.ToString());
         }
 
         // bullet hole, muzzle flash
@@ -79,9 +88,9 @@ public class GunSystem : MonoBehaviour
 
         if (bulletsShot > 0 && bulletsLeft > 0)
         {
-
             Invoke(nameof(Shoot), timeBetweenShots);
         }
+
     }
 
     private void ResetShot()
@@ -99,5 +108,21 @@ public class GunSystem : MonoBehaviour
     {
         bulletsLeft = magazineSize;
         reloading = false;
+    }
+
+    private IEnumerator Tremble()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            gunModel.transform.localPosition += new Vector3(0.03f, 0.03f, 0.3f);
+            yield return new WaitForSeconds(0.01f);
+            gunModel.transform.localPosition -= new Vector3(0.03f, 0.03f, 0.3f);
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
+    public bool IsShooting()
+    {
+        return !readyToShoot;
     }
 }
