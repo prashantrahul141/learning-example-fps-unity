@@ -77,7 +77,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f * (movementState == MovementState.CROUCHING ? 0.5f : 1f) + 0.3f, GroundLayer);
+        grounded = Physics.Raycast(
+            transform.position,
+            Vector3.down,
+            playerHeight * 0.5f * (movementState == MovementState.CROUCHING ? 0.5f : 1f) + 0.3f,
+            GroundLayer
+        );
         MovePlayer();
     }
 
@@ -111,38 +116,32 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     // Manages player states
     private void StateHandler()
     {
-
         // set crouching
         if (Input.GetKey(crouchKey))
         {
             movementState = MovementState.CROUCHING;
             moveSpeed = crouchSpeed;
         }
-
         // set sprinting
         else if (grounded && Input.GetKey(sprintKey))
         {
             movementState = MovementState.SPRINTING;
             moveSpeed = sprintSpeed;
         }
-
         // set walking
         else if (grounded)
         {
             movementState = MovementState.WALKING;
             moveSpeed = walkSpeed;
         }
-
         // set in air
         else
         {
             movementState = MovementState.AIR;
         }
-
     }
 
     // adds force to move player
@@ -164,15 +163,13 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (!grounded)
         {
-
             rb.AddForce(10f * airMultiplier * moveSpeed * moveDirection.normalized, ForceMode.Force);
-
         }
 
         rb.useGravity = !OnSlope();
     }
 
-    // clamps max speed of player 
+    // clamps max speed of player
     private void SpeedControl()
     {
         // limiting on slope
@@ -195,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // adds force for jumping 
+    // adds force for jumping
     private void Jump()
     {
         exitingSlope = true;
@@ -220,7 +217,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return false;
-
     }
 
     private Vector3 GetSlopeMoveDirection()

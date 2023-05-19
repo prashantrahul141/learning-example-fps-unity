@@ -6,13 +6,21 @@ public class GunSystem : MonoBehaviour
 {
     [Header("Gun Stats")]
     public int damage;
-    public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
-    public int magazineSize, bulletsPerTap;
+    public float timeBetweenShooting,
+        spread,
+        range,
+        reloadTime,
+        timeBetweenShots;
+    public int magazineSize,
+        bulletsPerTap;
     public bool allowButtonHold;
     public float recoil;
 
-    private int bulletsLeft, bulletsShot;
-    private bool shooting, readyToShoot, reloading;
+    private int bulletsLeft,
+        bulletsShot;
+    private bool shooting,
+        readyToShoot,
+        reloading;
 
     [Header("References")]
     public Transform playerOrientation;
@@ -22,10 +30,10 @@ public class GunSystem : MonoBehaviour
     public LayerMask enemyLayer;
 
     [Header("Graphics")]
-    public ParticleSystem muzzleFlash;
+    public ParticleSystem muzzleFlash_GunCamera;
+    public ParticleSystem muzzleFlash_MainCamera;
     public GameObject bulletHoleGraphic;
     public Transform gunModel;
-
 
     private void Start()
     {
@@ -62,7 +70,6 @@ public class GunSystem : MonoBehaviour
 
         StartCoroutine(Tremble());
 
-
         // Camera shake
         CameraShaker.Instance.ShakeOnce(0.5f, 4f, 0.08f, 0.08f);
 
@@ -80,7 +87,8 @@ public class GunSystem : MonoBehaviour
 
         // bullet hole, muzzle flash
         Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.FromToRotation(Vector3.forward, rayHit.normal));
-        muzzleFlash.Play();
+        muzzleFlash_GunCamera.Play();
+        muzzleFlash_MainCamera.Play();
 
         bulletsLeft--;
         bulletsShot--;
@@ -90,7 +98,6 @@ public class GunSystem : MonoBehaviour
         {
             Invoke(nameof(Shoot), timeBetweenShots);
         }
-
     }
 
     private void ResetShot()

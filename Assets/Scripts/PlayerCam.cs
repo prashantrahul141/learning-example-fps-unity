@@ -26,7 +26,7 @@ public class PlayerCam : MonoBehaviour
         yRotation += mouseX;
         xRotation -= mouseY;
 
-        // clamp max cam rotation 
+        // clamp max cam rotation
         xRotation = Mathf.Clamp(xRotation - (gunSystem.IsShooting() ? gunSystem.recoil : 0), -90f, 70f);
 
         // rotate cam
