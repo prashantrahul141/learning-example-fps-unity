@@ -121,10 +121,10 @@ public class GunSystem : MonoBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            gunModel.transform.localPosition += new Vector3(0.03f, 0.03f, 0.2f);
-            yield return new WaitForSeconds(0.01f);
-            gunModel.transform.localPosition -= new Vector3(0.03f, 0.03f, 0.2f);
-            yield return new WaitForSeconds(0.01f);
+            gunModel.transform.localPosition -= new Vector3(0.01f, 0.01f, 0.09f);
+            yield return new WaitForSeconds(0.035f);
+            gunModel.transform.localPosition += new Vector3(0.01f, 0.01f, 0.09f);
+            yield return new WaitForSeconds(0.035f);
         }
     }
 
